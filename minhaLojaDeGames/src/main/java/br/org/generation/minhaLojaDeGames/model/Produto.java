@@ -1,6 +1,6 @@
 package br.org.generation.minhaLojaDeGames.model;
 
-import java.util.Date;
+import java.sql.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,28 +10,28 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.sun.istack.NotNull;
 
 @Entity
-@Table(name = "Produto")
+@Table(name = "tb_produto")
 public class Produto {
 
-	@Id	
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	
+
 	@NotNull
-	@Size(min = 2, max = 100)
+	@Size(max = 50, message = "50 caracteres")
 	private String titulo;
 
 	@Temporal(TemporalType.TIMESTAMP)
-    private Date dataCompra = new java.sql.Date(System.currentTimeMillis());
-	
+	private Date data = new java.sql.Date(System.currentTimeMillis());
+
 	@ManyToOne
-	@JsonIgnoreProperties("Produto")
+	@JsonIgnoreProperties("produto")
 	private Categoria categoria;
 
 	public long getId() {
@@ -50,12 +50,12 @@ public class Produto {
 		this.titulo = titulo;
 	}
 
-	public Date getDataCompra() {
-		return dataCompra;
+	public Date getData() {
+		return data;
 	}
 
-	public void setDataCompra(Date dataCompra) {
-		this.dataCompra = dataCompra;
+	public void setData(Date data) {
+		this.data = data;
 	}
 
 	public Categoria getCategoria() {
@@ -65,6 +65,5 @@ public class Produto {
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
-	
-	
+
 }

@@ -24,39 +24,36 @@ import br.org.generation.minhaLojaDeGames.repository.ProdutoRepository;
 public class ProdutoController {
 
 	@Autowired
-	private ProdutoRepository repositoty;
-	
+	private ProdutoRepository cRepository;
+
 	@GetMapping
-	public ResponseEntity<List<Produto>> GetAll(){
-		return ResponseEntity.ok(repositoty.findAll());
+	public ResponseEntity<List<Produto>> getAll() {
+		return ResponseEntity.ok(cRepository.findAll());
 	}
 
-	@GetMapping("/{idproduto}")
-	public ResponseEntity<Produto> GetById(@PathVariable long id){
-		return repositoty.findById(id)
-				.map(resp -> ResponseEntity.ok(resp))
-				.orElse(ResponseEntity.notFound().build());
+	@GetMapping("/{id}")
+	public ResponseEntity<Produto> getById(@PathVariable long id) {
+		return cRepository.findById(id).map(resp -> ResponseEntity.ok(resp)).orElse(ResponseEntity.notFound().build());
 	}
-	
-	@GetMapping("/{titulo}")
-	public ResponseEntity<List<Produto>> GetByTitulo(@PathVariable String titulo){
-		return ResponseEntity.ok(repositoty.findAllByTituloContainingIgnoreCase(titulo));
+
+	@GetMapping("/produto/{produto}")
+	public ResponseEntity<List<Produto>> getByProduto(@PathVariable("produto") String produto) {
+		return ResponseEntity.ok(cRepository.findAllByTituloContainingIgnoreCase(produto));
 	}
-	
+
 	@PostMapping
-	public ResponseEntity<Produto> post (@RequestBody Produto produto){
-		return ResponseEntity.status(HttpStatus.CREATED).body(repositoty.save(produto));
+	public ResponseEntity<Produto> postProduto(@RequestBody Produto produto) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(cRepository.save(produto));
 	}
-	
-	@PutMapping
-	public ResponseEntity<Produto> put (@RequestBody Produto produto){
-		return ResponseEntity.status(HttpStatus.OK).body(repositoty.save(produto));
-	}
-	
-	@DeleteMapping("/{idproduto}")
-	public void delete(@PathVariable long id) {
-		repositoty.deleteById(id);
-	}
-	
-}
 
+	@PutMapping
+	public ResponseEntity<Produto> putProduto(@RequestBody Produto produto) {
+		return ResponseEntity.status(HttpStatus.OK).body(cRepository.save(produto));
+	}
+
+	@DeleteMapping("/{id}")
+	public void deleteProduto(@PathVariable long id) {
+		cRepository.deleteById(id);
+	}
+
+}
